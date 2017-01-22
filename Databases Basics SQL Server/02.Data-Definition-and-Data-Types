@@ -1,0 +1,424 @@
+--Data Definition and Data Types
+
+--problem 01 Create database
+CREATE DATABASE Minions
+
+--problem 02 Create table Minions and Towns
+
+CREATE TABLE Minions
+(
+Id INT NOT NULL PRIMARY KEY,
+Name VARCHAR(50),
+Age INT
+)
+
+CREATE TABLE Towns
+(
+Id NOT NULL PRIMARY KEY,
+Name VARCHAR(50)
+)
+
+--problem 03 Alter table Minions
+
+ALTER TABLE Minions
+ADD TownId INT
+
+ALTER TABLE Minions
+DROP COLUMN TownId
+
+ALTER TABLE Minions
+ADD TownId INT
+CONSTRAINT fk_townId FOREIGN KEY (TownId) REFERENCES Towns(Id)
+
+--problem 04 Insert records in both tables
+
+INSERT INTO Towns (Id, Name)
+VALUES(1,'Sofia'),
+		(2,'Plovdiv'),
+		(3,'Varna')
+          
+INSERT INTO Minions(Id, Name, Age, TownId)
+VALUES (1, 'Kevin', 22, 1),
+(2,'Bob',15, 3),
+(3,'Steward',NULL, 2)
+
+--problem 05 Create table people
+
+CREATE TABLE People
+(
+Id INT PRIMARY KEY IDENTITY(1,1),
+Name NVARCHAR(200) NOT NULL,
+Picture VARBINARY(max),
+Height FLOAT(2),
+Weight FLOAT(2),
+Gender CHAR(1) NOT NULL CHECK(Gender in('m','f')),
+Birthdate DATE NOT NULL,
+Biography NVARCHAR(max)
+)
+
+INSERT INTO People(Name, Picture, Height, Weight, Gender, Birthdate, Biography)
+VALUES('Ivan',NULL, 1.83,76.34,'m','1992-05-16', 'some biography'),
+('Georgi',NULL, 1.93,100.34,'m','1992-06-06', 'some biography'),
+('Maria',NULL, 1.63,46.34,'f','1989-05-16', 'some biography'),
+('Greta',NULL, 1.70,49.34,'f','1990-05-19', 'some biography'),
+('Nikoleta',NULL, 1.68,48.34,'f','1985-11-22', 'some biography')
+
+--problem 06 Drop both tables
+DROP TABLE Minions
+DROP TABLE Towns
+
+--problem 07 Create table people
+CREATE TABLE People
+(
+Id INT NOT NULL PRIMARY KEY,
+Name VARCHAR(200) NOT NULL,
+Picture VARBINARY(8000)
+)
+
+--problem 8 Create table users
+CREATE TABLE Users
+(
+Id BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1),
+Username VARCHAR(30) NOT NULL UNIQUE,
+Password NVARCHAR(26) NOT NULL,
+ProfilePicture VARBINARY(8000),
+LastLoginTime TIME,
+IsDeleted BIT
+)
+
+INSERT INTO Users (Username, Password, ProfilePicture, LastLoginTime, IsDeleted)
+VALUES ('Mitko', 'dasaznai123456789', null, '2015-12-08', 'true'),
+('Jelqzko', 'dasaznai123789', null, '2015-12-08', 'true'),
+('Jivko', 'dasaznai12789', null, '2011-12-11', 'false'),
+('Yordan', 'dasaznai12346789', null, '2014-12-26', 'false'),
+('Kostadin', 'dasaznai1234567', null, '2015-12-14', 'true')
+
+--problem 13 Movies Database
+CREATE TABLE Directors
+(
+Id INT NOT NULL PRIMARY KEY IDENTITY,
+DirectorName NVARCHAR(50),
+Notes NVARCHAR(max)
+)
+
+CREATE TABLE Genres
+(
+Id INT NOT NULL PRIMARY KEY IDENTITY,
+GenreName NVARCHAR(50),
+Notes NVARCHAR(max)
+)
+
+CREATE TABLE Categories
+(
+Id INT NOT NULL PRIMARY KEY IDENTITY,
+CategorieName NVARCHAR(50),
+Notes NVARCHAR(max)
+)
+
+CREATE TABLE Movies
+(
+Id INT NOT NULL PRIMARY KEY IDENTITY,
+Title NVARCHAR(50) NOT NULL,
+DirectorId INT NOT NULL,
+CopyrightYear SMALLINT,
+Length INT,
+GenreId INT,
+CategoryId INT,
+Rating NUMERIC,
+Notes NVARCHAR(max)
+)
+
+
+INSERT INTO Directors (DirectorName,Notes)
+VALUES ('Ivan', 'gotin direktor'),
+  ('Georgi', 'rejisira strashno'),
+  ('Dimitar', 'nai golemiq mnogo pie'),
+  ('Spas', 'super razbivach'),
+  ('Subcho', 'samo za qdene misli')
+
+INSERT INTO Genres (GenreName,Notes)
+VALUES ('Pesho', 'gotin direktor'),
+  ('Misho', 'rejisira strashno'),
+  ('Spiridon', 'nai golemiq mnogo pie'),
+  ('Luka', 'super razbivach'),
+  ('Mati', 'samo za qdene misli')
+
+INSERT INTO Categories (CategorieName, Notes)
+VALUES ('Commedy', 'golqm smqh'),
+  ('Drama', 'mega tujno'),
+  ('Action', 'qko boi i patlaci'),
+  ('Horror', 'qko kryv i smrat'),
+  ('Animation', 'detski')
+
+INSERT INTO Movies (Title, DirectorId, CopyrightYear, Length, GenreId, CategoryId, Rating, Notes)
+VALUES ('Micky Mouse', 1, 2014, 120, 2, 5, 7, 'qko filmche'),
+('Terminator', 2, 2000, 116, 3, 3, 8, 'i will be back'),
+('Matrix', 3, 1999, 105, 4, 1, 9, 'matricata neo'),
+('Father Of The Bride', 5, 2000, 80, 2, 1, 6, 'smqqqh'),
+('Batman', 4, 2006, 112, 3, 1, 5, 'filmche')
+
+--problem 14 Car rental Database
+CREATE TABLE Categories
+(
+Id INT IDENTITY NOT NULL,
+Category NVARCHAR(20) NOT NULL,
+DailyRate NUMERIC,
+WeeklyRate NUMERIC,
+MonthlyRate NUMERIC,
+WeekendRate NUMERIC
+CONSTRAINT PK_Categories PRIMARY KEY (Id)
+)
+
+CREATE TABLE Cars
+(
+Id INT IDENTITY NOT NULL,
+PlateNumber NVARCHAR(8) NOT NULL,
+Make NVARCHAR(20) NOT NULL,
+Model NVARCHAR(20) NOT NULL,
+CarYear INT,
+CategoryId INT,
+Doors INT,
+Picture VARBINARY(MAX),
+Condition NVARCHAR(20),
+IsAvailable BIT
+CONSTRAINT PK_Cars PRIMARY KEY (Id)
+)
+
+CREATE TABLE Employees
+(
+Id INT IDENTITY NOT NULL,
+FirstName NVARCHAR(20) NOT NULL,
+LastName NVARCHAR(20) NOT NULL,
+Title NVARCHAR(20),
+Notes NVARCHAR(200)
+CONSTRAINT PK_Employees PRIMARY KEY (Id)
+)
+
+CREATE TABLE Customers
+(
+Id INT IDENTITY NOT NULL,
+DriverLicenceNumber NVARCHAR(15) NOT NULL,
+FullName NVARCHAR(100) NOT NULL,
+Address NVARCHAR(500),
+City NVARCHAR(50),
+ZIPCode NVARCHAR(10),
+Notes NVARCHAR(200)
+CONSTRAINT PK_Customers PRIMARY KEY (Id)
+)
+
+CREATE TABLE RentalOrders
+(
+Id INT IDENTITY NOT NULL,
+EmployeeId INT NOT NULL,
+CustomerId INT NOT NULL,
+CarId INT NOT NULL,
+CarCondition NVARCHAR(20),
+TankLevel NUMERIC(10,2),
+KilometrageStart INT,
+KilometrageEnd INT,
+TotalKilometrage INT,
+StartDate DATE,
+EndDate DATE,
+TotalDays INT,
+RateApplied INT,
+TaxRate NUMERIC,
+OrderStatus NVARCHAR(10),
+Notes NVARCHAR(200)
+CONSTRAINT PK_RentalOrders PRIMARY KEY (Id)
+)
+
+INSERT INTO Categories (Category)
+VALUES ('Car'), ('Truck'), ('Van')
+
+INSERT INTO Cars (PlateNumber, Make, Model)
+VALUES
+('A1234AA', 'Opel', 'Omega'),
+('A6542AB', 'Ford', 'Focus'),
+('OB4444AP', 'Lada', 'Niva')
+
+INSERT INTO Employees (FirstName, LastName)
+VALUES
+('Ivan', 'Ivanov'),
+('Petar', 'Petrov'),
+('Misha', 'Mishav')
+
+INSERT INTO Customers (DriverLicenceNumber, FullName)
+VALUES
+('A12345', 'Ivan Ivanov Ivanov'),
+('A12346', 'Ivan Ivanov Petrov'),
+('A12342', 'Petar Ivanov Ivanov')
+
+INSERT INTO RentalOrders (EmployeeId, CustomerId, CarId)
+VALUES
+(1, 2, 3),
+(2, 3, 1),
+(2, 2, 2)
+
+SELECT COUNT(*) FROM Categories
+SELECT COUNT(*) FROM Cars
+SELECT COUNT(*) FROM Employees
+SELECT COUNT(*) FROM Customers
+SELECT COUNT(*) FROM RentalOrders
+
+--problem 15 Hotel Database
+CREATE TABLE Employees
+ (
+ Id INT PRIMARY KEY IDENTITY, 
+ FirstName VARCHAR(50) NOT NULL, 
+ LastName VARCHAR (50) NOT NULL, 
+ Title VARCHAR(255), 
+ Notes VARCHAR(max)
+ )
+
+ CREATE TABLE Customers
+ (
+ AccountNumber INT PRIMARY KEY, 
+ FirstName VARCHAR(50) NOT NULL, 
+ LastName VARCHAR(50) NOT NULL, 
+ PhoneNumber NUMERIC NOT NULL, 
+ EmergencyName VARCHAR(50), 
+ EmergencyNumber NUMERIC, 
+ Notes VARCHAR(max)
+ )
+
+ CREATE TABLE RoomStatus
+  (
+  RoomStatus VARCHAR(10), 
+  Notes VARCHAR(max)
+  CONSTRAINT PK_RoomStatus PRIMARY KEY(RoomStatus)
+  )
+
+ CREATE TABLE RoomTypes
+   (
+   RoomType VARCHAR(20), 
+   Notes VARCHAR(max)
+   CONSTRAINT PK_RoomType PRIMARY KEY (RoomType)
+   )
+
+ CREATE TABLE BedTypes
+    (
+	BedType VARCHAR(20), 
+	Notes VARCHAR(max)
+	CONSTRAINT PK_BedType PRIMARY KEY(BedType)
+	)
+
+CREATE TABLE Rooms
+	 (
+	 RoomNumber INT NOT NULL, 
+	 RoomType VARCHAR(20) NOT NULL, 
+	 BedType VARCHAR(20) NOT NULL, 
+	 Rate NUMERIC, 
+	 RoomStatus VARCHAR(10) NOT NULL, 
+	 Notes VARCHAR(max)
+	 CONSTRAINT PK_RoomNumber PRIMARY KEY(RoomNumber)
+	 )
+
+CREATE TABLE Payments 
+	 (
+	 Id INT IDENTITY NOT NULL, 
+	 EmployeeId INT NOT NULL, 
+	 PaymentDate DATE NOT NULL, 
+	 AccountNumber INT NOT NULL, 
+	 FirstDateOccupied DATE, 
+	 LastDateOccupied DATE, 
+	 TotalDays INT, 
+	 AmountCharged NUMERIC, 
+	 TaxRate NUMERIC, 
+	 TaxAmount NUMERIC, 
+	 PaymentTotal NUMERIC NOT NULL, 
+	 Notes VARCHAR(max)
+	 CONSTRAINT PK_Payments PRIMARY KEY (Id)
+	 )
+
+CREATE TABLE Occupancies
+	  (
+	  Id INT IDENTITY NOT NULL, 
+	  EmployeeId INT NOT NULL, 
+	  DateOccupied DATE, 
+	  AccountNumber INT NOT NULL, 
+	  RoomNumber INT NOT NULL, 
+	  RateApplied NUMERIC, 
+	  PhoneCharge NUMERIC, 
+	  Notes VARCHAR(max)
+	  CONSTRAINT PK_Occupancies PRIMARY KEY(Id)
+	  )
+
+INSERT INTO Employees (FirstName, LastName)
+VALUES ('Ivan', 'Ivanov'),
+		('Jelqzko', 'Nikov'),
+		('Jivko', 'Ivanov')
+
+INSERT INTO Customers (AccountNumber, FirstName, LastName, PhoneNumber)
+VALUES
+(34545674, 'Ivan', 'Petrov', '+35988999999'),
+(35436554, 'Misho', 'Petrovanov', '+359889965479'),
+(12480934, 'Nikolay', 'Nikov', '+35988999919')
+
+INSERT INTO RoomStatus (RoomStatus)
+VALUES
+('Occupied'),
+('Available'),
+('Cleaning')
+
+INSERT INTO RoomTypes (RoomType)
+VALUES
+('Single'),
+('Double'),
+('Apartment')
+
+INSERT INTO BedTypes (BedType)
+VALUES
+('Double'),
+('Single'),
+('President')
+
+INSERT INTO Rooms (RoomNumber, RoomType, BedType, RoomStatus)
+VALUES
+(10, 'Single', 'Double', 'Available'),
+(21, 'Double', 'Single', 'Available'),
+(14, 'Apartment', 'President', 'Occupied')
+
+INSERT INTO Payments (EmployeeId, PaymentDate, AccountNumber, AmountCharged, PaymentTotal, TaxRate)
+VALUES
+(1, GETDATE(), 34545675, 10.20, 12.20, 2.4),
+(3, GETDATE(), 34545675, 220.20, 240.22, 2.1),
+(2, GETDATE(), 34545675, 190.20, 215.88, 1.1)
+
+INSERT INTO Occupancies (EmployeeId, AccountNumber, RoomNumber)
+VALUES
+(1, 34545675, 2),
+(2, 34545675, 1),
+(2, 34545675, 12)
+
+--problem 19 Basic select all fields
+SELECT * FROM Towns
+SELECT * FROM Departments
+SELECT * FROM Employees
+
+--problem 20 Basic select all fields and order them
+SELECT * FROM Towns
+ORDER BY Name ASC
+
+SELECT * FROM Departments
+ORDER BY Name ASC
+
+SELECT * FROM Employees
+ORDER BY Salary DESC
+
+--problem 21 Basic select some fields
+SELECT Name FROM Towns ORDER BY Name
+SELECT Name FROM Departments ORDER BY Name
+SELECT FirstName, LastName, JobTitle, Salary FROM Employees ORDER BY Salary DESC
+
+--problem 22 Increase employees salary
+UPDATE Employees
+SET Salary += Salary * 0.1
+SELECT Salary FROM Employees
+
+--problem 23 Decrease taxrate
+UPDATE Payments
+SET TaxRate -= TaxRate * 0.03
+SELECT TaxRate FROM Payments
+
+--problem 24 Delete all records
+DELETE FROM Occupancies
