@@ -1,0 +1,112 @@
+--problem 01
+SELECT FirstName, LastName 
+	FROM Employees AS e
+	WHERE FirstName LIKE 'Sa%'
+	
+--problem 02
+SELECT FirstName, LastName
+	FROM Employees AS e
+	WHERE LastName LIKE '%ei%'
+	
+--problem 03
+SELECT FirstName
+FROM Employees AS e
+WHERE (DepartmentID = 3 OR DepartmentID = 10)
+	  AND YEAR(HireDate) BETWEEN 1995 AND 2005
+	  
+--problem 04
+SELECT FirstName, LastName
+	FROM Employees AS e
+	WHERE e.JobTitle NOT LIKE '%engineer%'
+
+--problem 05
+SELECT t.[Name]
+FROM Towns AS t
+WHERE LEN([Name]) = 5 OR LEN([Name]) = 6
+ORDER BY [Name]
+
+--problem 06
+SELECT t.TownID, t.[Name]
+FROM Towns AS t
+WHERE t.Name LIKE 'M%' OR
+	  t.Name LIKE 'K%' OR
+	  t.Name LIKE 'B%' OR 
+	  t.Name LIKE 'E%'
+ORDER BY [Name]
+
+--problem 07
+SELECT t.TownID, t.[Name]
+FROM Towns AS t
+WHERE t.Name NOT LIKE 'R%' AND
+	  t.Name NOT LIKE 'B%' AND
+	  t.Name NOT LIKE 'D%' 
+ORDER BY t.[Name]
+
+--problem 08
+CREATE VIEW V_EmployeesHiredAfter2000 AS
+SELECT FirstName, LastName
+FROM Employees AS e
+WHERE YEAR(HireDate) > 2000
+
+--problem 09
+SELECT e.FirstName, e.LastName
+FROM Employees As e
+WHERE LEN(LastName) = 5
+
+--problem 10
+SELECT c.CountryName,
+	   c.IsoCode
+FROM Countries AS c
+WHERE c.CountryName LIKE '%a%a%a%'
+ORDER BY c.IsoCode ASC
+
+--problem 11
+SELECT p.PeakName,
+	   r.RiverName,
+	   LOWER(CONCAT(p.PeakName, SUBSTRING(r.RiverName, 2, LEN(r.RiverName)))) AS Mix
+FROM Peaks AS p, Rivers AS r
+WHERE RIGHT(p.PeakName, 1) = LEFT(r.RiverName,1)
+ORDER BY Mix
+
+--problem 12
+SELECT TOP(50)[Name],FORMAT([Start],'yyyy-MM-dd') AS [Start]
+FROM [Games] as g
+WHERE YEAR(g.[Start]) BETWEEN 2011 AND 2012
+ORDER BY g.[Start],[Name]
+
+--problem 13
+SELECT Username,
+	   SUBSTRING(u.Email, CHARINDEX('@', u.Email)+1, LEN(u.Email)) AS 'Email Provider'
+FROM Users AS u
+ORDER BY [Email Provider],
+	     u.Username
+		 
+--problem 14
+SELECT u.Username, u.IpAddress
+FROM Users AS u
+WHERE u.IpAddress LIKE '___.1_%._%.___'
+ORDER BY u.Username
+
+--problem 15
+SELECT g.[Name] AS 'Game',
+   CASE 
+	   WHEN DATEPART(HOUR, g.[Start]) BETWEEN 0 AND 11 THEN 'Morning'
+	   WHEN DATEPART(HOUR, g.[Start]) BETWEEN 12 AND 17 THEN 'Afternoon'
+	   WHEN DATEPART(HOUR, g.[Start]) BETWEEN 18 AND 24 THEN 'Evening'
+	END AS [Part of the day],
+
+	CASE
+		WHEN Duration <= 3 THEN 'Extra Short'
+		WHEN g.Duration BETWEEN 4 AND 6 THEN 'Short'
+		WHEN g.Duration > 6 THEN 'Long'
+		ELSE 'Extra Long'
+	END AS [Duration]
+FROM Games AS g
+ORDER BY [Game], [Duration], [Part of the day]
+
+--problem 16
+SELECT ProductName,
+	   OrderDate,
+	   DATEADD(day,3,OrderDate) AS [Pay Due],
+	   DATEADD(month,1,OrderDate) AS [Deliver Due]
+FROM Orders
